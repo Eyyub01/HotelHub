@@ -29,10 +29,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     # Django Apps
-    'hotel',
+    'hotels',
 
     # Third-party apps
     'rest_framework',
+    'drf_yasg',
+    'django_countries',
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -116,3 +119,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0'  # Redis URL
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+

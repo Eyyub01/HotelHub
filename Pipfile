@@ -7,6 +7,9 @@ name = "pypi"
 django = "*"
 pillow = "*"
 djangorestframework = "*"
+celery = "*"
+django-celery-beat = "*"
+vine = "*"
 
 [dev-packages]
 
