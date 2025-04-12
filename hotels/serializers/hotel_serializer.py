@@ -3,6 +3,7 @@ from hotels.models.hotel_models import Hotel
 
 class HotelSerializer(serializers.ModelSerializer):
     country = serializers.CharField(source='city.country', read_only=True) 
+    owner = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         model = Hotel

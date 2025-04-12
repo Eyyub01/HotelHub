@@ -10,6 +10,7 @@ djangorestframework = "*"
 celery = "*"
 django-celery-beat = "*"
 vine = "*"
+djangorestframework-simplejwt = "*"
 
 [dev-packages]
 
