@@ -10,6 +10,7 @@ djangorestframework = "*"
 celery = "*"
 django-celery-beat = "*"
 vine = "*"
+redis = {extras = ["hiredis"], version = "*"}
 
 [dev-packages]
 
