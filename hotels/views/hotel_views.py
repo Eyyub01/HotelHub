@@ -26,10 +26,15 @@ class HotelListView(APIView):
         return Response({'Message': 'There are no hotels'}, status=status.HTTP_400_BAD_REQUEST)
 
 class HotelCreateView(APIView):
-    permission_classes = [IsOwnerOrReadOnly]
+    permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
 
     def post(self, request):
+        if request.user.role != 'Owner':
+            return Response(
+                {'error': 'Only users with Owner role can create hotels'},
+                status=status.HTTP_403_FORBIDDEN
+            )
         data = request.data.copy()
         data['owner'] = request.user.id
         serializer = HotelSerializer(data=data)

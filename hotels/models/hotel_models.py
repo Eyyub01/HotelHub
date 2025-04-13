@@ -1,5 +1,6 @@
 from django.db import models
-# from accounts.models import Customer
+from accounts.models import CustomerUser
+
 
 class Hotel(models.Model):
     STAR_RATINGS = (
@@ -10,6 +11,15 @@ class Hotel(models.Model):
         (5, "Five Stars"),
     )
     
+    owner = models.ForeignKey(
+        CustomerUser,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        limit_choices_to={'role': 'Owner'}, 
+        related_name='hotels'
+    )
+
     name = models.CharField(max_length=100, unique=True)
     address = models.CharField(max_length=200)
     city = models.CharField(max_length=100)
@@ -22,7 +32,6 @@ class Hotel(models.Model):
     check_in_time = models.TimeField(default="14:00")
     check_out_time = models.TimeField(default="11:00")
 
-    # owner = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
