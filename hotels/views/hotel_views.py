@@ -7,6 +7,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from django.http import Http404
 
+from hotels.tasks import send_hotel_created_email
 from hotels.utils.pagination import CustomPagination
 from hotels.serializers.hotel_serializer import HotelSerializer
 from hotels.models.hotel_models import Hotel
@@ -39,7 +40,9 @@ class HotelCreateView(APIView):
         data['owner'] = request.user.id
         serializer = HotelSerializer(data=data)
         if serializer.is_valid():
-            serializer.save()
+            hotel = serializer.save()
+            send_hotel_created_email.delay(hotel.name, request.user.email)
+            
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
