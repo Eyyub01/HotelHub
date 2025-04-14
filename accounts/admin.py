@@ -1,9 +1,9 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomerUser
+from .models import CustomUser
 
 class CustomerUserAdmin(UserAdmin):
-    model = CustomerUser
+    model = CustomUser
     list_display = ('username', 'email', 'role', 'is_owner_requested', 'is_active')
     list_filter = ('role', 'is_owner_requested', 'is_active')
     search_fields = ('username', 'email')
@@ -25,4 +25,4 @@ class CustomerUserAdmin(UserAdmin):
 
     readonly_fields = ('created_at', 'updated_at')
 
-admin.site.register(CustomerUser, CustomerUserAdmin)
+admin.site.register(CustomUser, CustomerUserAdmin)

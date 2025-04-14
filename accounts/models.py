@@ -1,7 +1,9 @@
 from django.contrib.auth.models import AbstractUser, Group, Permission
+from django.core.exceptions import ValidationError
+
 from django.db import models
 
-class CustomerUser(AbstractUser):
+class CustomUser(AbstractUser):
 
     CUSTOMER = 'User'
     OWNER = 'Owner'
@@ -52,6 +54,15 @@ class CustomerUser(AbstractUser):
         auto_now=True,
         verbose_name=('updated at')
     )
+
+    def clean(self):
+        if not self.email:
+            raise ValidationError("Email address is required.")
+        super().clean()
+    
+    def save(self, *args, **kwargs):
+        self.clean()  
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.username

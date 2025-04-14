@@ -1,5 +1,5 @@
 from django.db import models
-from accounts.models import CustomerUser
+from accounts.models import CustomUser
 
 
 class Hotel(models.Model):
@@ -12,7 +12,7 @@ class Hotel(models.Model):
     )
     
     owner = models.ForeignKey(
-        CustomerUser,
+        CustomUser,
         on_delete=models.SET_NULL,
         null=True,
         blank=True,

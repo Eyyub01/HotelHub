@@ -2,12 +2,12 @@ from rest_framework import serializers
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from .models import CustomerUser
+from .models import CustomUser
 
 
 class CustomerUserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CustomerUser
+        model = CustomUser
         fields = '__all__'
     
 
@@ -16,7 +16,7 @@ class CustomerUserRegisterSerializer(serializers.ModelSerializer):
     is_owner_requested = serializers.BooleanField(default=False)
 
     class Meta:
-        model = CustomerUser
+        model = CustomUser
         fields = ['username', 'email', 'password', 'phone_number', 'is_owner_requested']
         extra_kwargs = {
             'email': {'required': True},
@@ -25,12 +25,12 @@ class CustomerUserRegisterSerializer(serializers.ModelSerializer):
         }
 
     def validate_email(self, value):
-        if CustomerUser.objects.filter(email=value).exists():
+        if CustomUser.objects.filter(email=value).exists():
             raise serializers.ValidationError("This email is already in use.")
         return value
 
     def create(self, validated_data):
-        user = CustomerUser.objects.create_user(
+        user = CustomUser.objects.create_user(
             username=validated_data['username'],
             email=validated_data['email'],
             password=validated_data['password'],
@@ -45,14 +45,14 @@ class ProfileUpdateSerializer(serializers.ModelSerializer):
     profile_picture = serializers.ImageField(required=False)
 
     class Meta:
-        model = CustomerUser
+        model = CustomUser
         fields = [
             'username', 'email', 'password', 'phone_number', 'profile_picture'
         ]
         read_only_fields = ['role', 'is_owner_requested', 'created_at', 'updated_at']
 
     def validate_email(self, value):
-        if CustomerUser.objects.filter(email=value).exclude(id=self.instance.id).exists():
+        if CustomUser.objects.filter(email=value).exclude(id=self.instance.id).exists():
             raise serializers.ValidationError("This email is already in use.")
         return value
 

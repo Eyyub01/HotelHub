@@ -12,7 +12,7 @@ from hotels.models.hotel_models import Hotel
 from hotels.serializers.hotel_serializer import HotelSerializer
 
 
-class RegisterView(APIView):
+class RegisterAPIView(APIView):
     permission_classes = [AllowAny]  
     def post(self, request):
         serializer = CustomerUserRegisterSerializer(data=request.data)
@@ -49,19 +49,18 @@ class OwnerRequestApprovalAPIView(APIView):
     authentication_classes = [JWTAuthentication]
 
     def post(self, request, user_id):
-        user = get_object_or_404(CustomerUser, id=user_id)
+        user = get_object_or_404(CustomUser, id=user_id)
         if not user.is_owner_requested:
             return Response(
                 {'error': 'This user has not requested Owner role.'},
                 status=status.HTTP_400_BAD_REQUEST
             )
-        user.role = CustomerUser.OWNER
+        user.role = CustomUser.OWNER
         user.is_owner_requested = False
         user.save()
         serializer = CustomerUserSerializer(user)
         return Response(
-            {'message': 'User promoted to Owner role.', 'data': serializer.data},
-            status=status.HTTP_200_OK
+            {'message': 'User promoted to Owner role.', 'data': serializer.data}, status=status.HTTP_200_OK
         )
 
 
@@ -88,7 +87,7 @@ class OwnerListAPIView(APIView):
 
     def get(self, request):
         pagination = self.pagination_class()
-        owners = CustomerUser.objects.filter(role=CustomerUser.OWNER)
+        owners = CustomUser.objects.filter(role=CustomUser.OWNER)
         if owners.exists():
             result_page = pagination.paginate_queryset(owners, request)
             serializer = CustomerUserSerializer(result_page, many=True)
@@ -102,7 +101,7 @@ class UserListAPIView(APIView):
     authentication_classes = [JWTAuthentication]
 
     def get(self, request):
-        users = CustomerUser.objects.all()
+        users = CustomUser.objects.all()
         serializer = CustomerUserSerializer(users, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -114,7 +113,7 @@ class HotelsForOwnerAPIView(APIView):
 
     def get(self, request, profile_id):
         pagination = self.pagination_class()
-        profile = get_object_or_404(CustomerUser, id=profile_id)
+        profile = get_object_or_404(CustomUser, id=profile_id)
         hotels = Hotel.objects.filter(owner=profile)
         if hotels.exists():
             result_page = pagination.paginate_queryset(hotels, request)
@@ -128,13 +127,13 @@ class ProfileDetailAPIView(APIView):
     authentication_classes = [JWTAuthentication]
 
     def get(self, request, profile_id):
-        profile = get_object_or_404(CustomerUser, id=profile_id)
+        profile = get_object_or_404(CustomUser, id=profile_id)
         serializer = CustomerUserSerializer(profile)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     def patch(self, request, profile_id):
         user_id = request.user.id
-        profile = get_object_or_404(CustomerUser, id=profile_id)
+        profile = get_object_or_404(CustomUser, id=profile_id)
         serializer = CustomerUserSerializer(profile, data=request.data, partial=True)
         if user_id == profile_id:
             if serializer.is_valid():
@@ -145,7 +144,7 @@ class ProfileDetailAPIView(APIView):
     
     def delete(self, request, profile_id):
         user_id = request.user.id
-        profile = get_object_or_404(CustomerUser, id=profile_id)
+        profile = get_object_or_404(CustomUser, id=profile_id)
         if user_id == profile_id:
             profile.delete()
             return Response({'message': 'User account deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
