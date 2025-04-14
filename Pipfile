@@ -11,6 +11,8 @@ celery = "*"
 django-celery-beat = "*"
 vine = "*"
 redis = {extras = ["hiredis"], version = "*"}
+django-filter = "*"
+drf-spectacular = "*"
 
 [dev-packages]
 
