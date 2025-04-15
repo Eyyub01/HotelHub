@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  redis:
+    image: "redis:8.0-rc1-bookworm"
+    networks:
+      - app_net
+
+  web:
+    build: .
+    command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+    networks:
+      - app_net
+    environment:
+      CELERY_BROKER_URL: redis://redis:6379/0
+
+  celery_worker:
+    build: .
+    command: ["celery", "-A", "hotelhub", "worker", "-l", "debug"]
+    depends_on:
+      - redis
+    networks:
+      - app_net
+    environment:
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/0
+
+networks:
+  app_net:

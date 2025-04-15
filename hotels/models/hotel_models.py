@@ -1,6 +1,9 @@
 from django.db import models
-from accounts.models import CustomUser
+from django.contrib.auth.models import User
 
+from hotels.models.city_models import City
+
+from django.core.validators import RegexValidator
 
 class Hotel(models.Model):
     STAR_RATINGS = (
@@ -11,29 +14,51 @@ class Hotel(models.Model):
         (5, "Five Stars"),
     )
     
-    owner = models.ForeignKey(
-        CustomUser,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        limit_choices_to={'role': 'Owner'}, 
-        related_name='hotels'
+    name = models.CharField(
+        max_length=100,
+        unique=True
     )
+    address = models.CharField(
+        max_length=200,
+    )
+    city = models.ForeignKey(
+        City, 
+        on_delete=models.CASCADE, 
+        related_name='hotels'
+        )
+    phone = models.CharField(
+        max_length=15,
+        blank=True,
+        validators=[
+            RegexValidator(r'^\+?1?\d{9,15}$', ('Enter a valid phone number.'))
+        ],
+    )
+    email = models.EmailField(
+        blank=True, 
+        null=True
+        )
+    description = models.TextField(
+        blank=True, 
+        null=True
+        )
 
-    name = models.CharField(max_length=100, unique=True)
-    address = models.CharField(max_length=200)
-    city = models.CharField(max_length=100)
-    country = models.CharField(max_length=100, null=True, blank=True)
-    phone = models.CharField(max_length=15, blank=True)
-    email = models.EmailField(blank=True, null=True)
-    description = models.TextField(blank=True, null=True)
-    star_rating = models.IntegerField(choices=STAR_RATINGS, default=3)
+    star_rating = models.IntegerField(choices=STAR_RATINGS, default=3, help_text="Star rating from 1 to 5")
 
-    check_in_time = models.TimeField(default="14:00")
+    check_in_time = models.TimeField(default="14:00", )
     check_out_time = models.TimeField(default="11:00")
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        verbose_name = "Hotel"
+        verbose_name_plural = "Hotels"
+        indexes = [
+            models.Index(fields=['city']),
+            models.Index(fields=['name']),
+        ]
+        ordering = ['name'] 
+
     def __str__(self):
-        return f"{self.name} ({self.city}) - {self.star_rating} Stars"
+        return f"{self.name} ({self.city})"
+
