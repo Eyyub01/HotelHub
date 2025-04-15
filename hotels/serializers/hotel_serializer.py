@@ -2,10 +2,13 @@ from rest_framework import serializers
 from hotels.models.hotel_models import Hotel
 
 class HotelSerializer(serializers.ModelSerializer):
-    country = serializers.CharField(source='city.country', read_only=True) 
-    owner = serializers.PrimaryKeyRelatedField(read_only=True)
+    country = serializers.CharField(source='city.country', read_only=True)  # Ensure city and country exist in the model
+    owner = serializers.PrimaryKeyRelatedField(read_only=True)  # Ensure owner exists in the model
 
     class Meta:
         model = Hotel
-        fields = ['id', 'name', 'address', 'city', 'country', 'phone', 'email', 'description', 
-                  'star_rating', 'check_in_time', 'check_out_time', 'created_at', 'updated_at']
+        fields = [
+            'id', 'name', 'address', 'phone', 'email', 'description', 
+            'star_rating', 'check_in_time', 'check_out_time', 'city', 
+            'country', 'owner', 'created_at', 'updated_at'
+        ]

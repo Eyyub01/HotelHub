@@ -1,11 +1,9 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
 from accounts.models import CustomUser
-from utils.verification_code import generate_verification_code
-from utils.tasks import send_verification_code_email
 
-
+from accounts.utils.tasks import send_verification_code_email
+from accounts.utils.verification_code import generate_verification_code
 
 @receiver(post_save, sender=CustomUser)
 def send_verification_email(sender, instance, created, **kwargs):

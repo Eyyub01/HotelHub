@@ -1,6 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import *
+from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework import status
 from django.shortcuts import get_object_or_404
@@ -54,7 +54,7 @@ class LoginAPIView(APIView):
 
 class LogoutAPIView(APIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated, HeHasPermission]
+    permission_classes = [IsAuthenticated, HeHasPermission, IsEmailVerified]
     
     def post(self, request):
         serializer = LogoutSerializer(data=request.data)
@@ -99,8 +99,7 @@ class ProfileUpdateAPIView(APIView):
 
 
 class OwnerListAPIView(APIView):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated, IsEmailVerified]  
+    permission_classes = [AllowAny]  
     pagination_class = CustomPagination
 
     def get(self, request):
@@ -125,8 +124,7 @@ class UserListAPIView(APIView):
 
 
 class HotelsForOwnerAPIView(APIView):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated, IsEmailVerified]
+    permission_classes = [AllowAny]
     pagination_class = CustomPagination
 
     def get(self, request, profile_id):

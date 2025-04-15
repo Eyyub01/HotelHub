@@ -5,4 +5,4 @@ class AccountsConfig(AppConfig):
     name = 'accounts'
 
     def ready(self):
-        import utils.signals
+        import accounts.utils.signals # Ensure signals are correctly imported

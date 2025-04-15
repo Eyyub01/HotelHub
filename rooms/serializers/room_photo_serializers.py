@@ -1,9 +1,9 @@
 from rest_framework import serializers
-from hotels.models.hotel_photo_models import HotelPhoto
-from hotels.serializers.hotel_serializer import HotelSerializer 
+from rooms.models.room_photo_models import HotelPhoto
+from rooms.serializers.room_serializers import RoomSerializer
 
-class HotelPhotoSerializer(serializers.ModelSerializer):
-    hotel = HotelSerializer(read_only=True)
+class RoomPhotoSerializer(serializers.ModelSerializer):
+    room = RoomSerializer(read_only=True)
     image_url = serializers.SerializerMethodField()
 
     class Meta:
