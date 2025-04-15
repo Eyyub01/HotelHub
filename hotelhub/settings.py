@@ -33,8 +33,9 @@ INSTALLED_APPS = [
 
     # Third-party apps
     'rest_framework',
-    'drf_yasg',
+    'drf_spectacular',
     'django_countries',
+    'django_filters',
     'django_celery_beat',
     'rest_framework_simplejwt'
 ]
@@ -56,7 +57,23 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'hotelhub.middlewares.logging.RequestLoggingMiddleware',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 100
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'HotelHub API',
+    'DESCRIPTION': 'Simple API for your Hotels',
+    'VERSION': '0.1.2',
+    'SERVE_INCLUDE_SCHEMA': False,
+}
 
 ROOT_URLCONF = 'hotelhub.urls'
 
@@ -149,9 +166,29 @@ CELERY_BROKER_URL = 'redis://localhost:6379/0'  # Redis URL
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'  
-EMAIL_PORT = 587              
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'abbaszadeeyyub@gmail.com'  
-EMAIL_HOST_PASSWORD = 'xuuj dbbp uraq yzlq'  
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        'verbose': {
+            'format': '{levelname} {asctime} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    "handlers": {
+        "console": { 
+            "class": "logging.StreamHandler",  
+            "formatter": "verbose",  
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console"],  
+            "level": "INFO",  
+        },
+    },
+}
