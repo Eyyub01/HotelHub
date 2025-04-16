@@ -14,6 +14,6 @@ urlpatterns = [
     path(
         'hotels/<int:pk>/', 
         HotelRetrieveUpdateDestroy.as_view(),
-        name='hotel_detail'
+        name='hotel-detail'
     ),
 ]

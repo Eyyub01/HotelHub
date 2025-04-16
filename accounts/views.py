@@ -13,18 +13,23 @@ from hotels.models.hotel_models import Hotel
 from hotels.serializers.hotel_serializer import HotelSerializer
 
 
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+
+@method_decorator(csrf_exempt, name='dispatch')
 class RegisterAPIView(APIView):
-    permission_classes = [AllowAny]  
+    permission_classes = [AllowAny]
+
     def post(self, request):
         serializer = CustomerUserRegisterSerializer(data=request.data)
         if serializer.is_valid():
             with transaction.atomic():
                 serializer.save()
                 return Response(
-                    {'message': 'User registered successfully. If you requested Owner role, it will be reviewed.'},
+                    {'message': 'User registered successfully.'},
                     status=status.HTTP_201_CREATED
                 )
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
 
 
 class VerifyEmailAPIView(APIView):

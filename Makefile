@@ -1,13 +1,13 @@
 runserver:
 	python manage.py runserver
 
-makemigrations:
+make:
 	python manage.py makemigrations
 
 migrate:
 	python manage.py migrate
 
-createsuperuser:
+superuser:
 	python manage.py createsuperuser
 
 test:

@@ -14,8 +14,8 @@ urlpatterns = [
     path('users/', UserListAPIView.as_view(), name='all-users'),
     path('profile/<int:profile_id>/', ProfileDetailAPIView.as_view(), name='profile-detail'),
     path('profile/update/', ProfileUpdateAPIView.as_view(), name='profile-update'),
-    path('profile/<int:profile_id>/hotels/', HotelsForOwnerAPIView.as_view(), name='hotels_for_owner'),
+    path('profile/<int:profile_id>/hotels/', HotelsForOwnerAPIView.as_view(), name='hotels-for-owner'),
     
-    path('api/token/', csrf_exempt(views.TokenObtainPairView.as_view()), name='token_obtain_pair'),
-    path('api/token/refresh/', csrf_exempt(views.TokenRefreshView.as_view()), name='token_refresh'),
+    path('api/token/', csrf_exempt(views.TokenObtainPairView.as_view()), name='token-obtain-pair'),
+    path('api/token/refresh/', csrf_exempt(views.TokenRefreshView.as_view()), name='token-refresh'),
 ]

@@ -1,4 +1,5 @@
 from django.db import models
+
 from rooms.models.room_models import Room
 
 class RoomPhoto(models.Model):

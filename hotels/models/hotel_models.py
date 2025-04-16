@@ -22,10 +22,11 @@ class Hotel(models.Model):
         max_length=200,
     )
     city = models.ForeignKey(
-        City, 
-        on_delete=models.CASCADE, 
-        related_name='hotels'
-        )
+        City,
+        on_delete=models.CASCADE,
+        related_name='hotels',
+        default='Baku'
+    )
     phone = models.CharField(
         max_length=15,
         blank=True,
@@ -54,7 +55,6 @@ class Hotel(models.Model):
         verbose_name = "Hotel"
         verbose_name_plural = "Hotels"
         indexes = [
-            models.Index(fields=['city']),
             models.Index(fields=['name']),
         ]
         ordering = ['name'] 

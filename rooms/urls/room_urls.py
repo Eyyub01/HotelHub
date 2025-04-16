@@ -3,7 +3,9 @@ from django.urls import path
 from rooms.views.room_views import *
 
 urlpatterns = [
-    path('rooms/', RoomListView.as_view(), name='room_list'),
-    path('room/create', CreateRoomAPIView.as_view(), name='room_create'),
-    path('rooms/<int:pk>/', RoomDetailView.as_view(), name='room_detail'),
+    path('rooms/', RoomListAPIView.as_view(), name='room-list'),
+    path('room/create', CreateRoomAPIView.as_view(), name='room-create'),
+    path('rooms/<int:pk>/', RoomDetailView.as_view(), name='room-detail'),
+    path('rooms/<int:hotel_id>/hotel/', RoomsForHotelAPIView.as_view(), name='rooms-for-hotel'),
+    path('rooms/filter/', RoomFilterAPIView.as_view(), name='rooms-for-filter')
 ]

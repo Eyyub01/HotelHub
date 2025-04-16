@@ -1,9 +1,13 @@
 from rest_framework import serializers
+
 from hotels.models.hotel_models import Hotel
+from hotels.serializers.hotel_photo_serializer import HotelPhotoSerializer
+
 
 class HotelSerializer(serializers.ModelSerializer):
-    country = serializers.CharField(source='city.country', read_only=True)  # Ensure city and country exist in the model
-    owner = serializers.PrimaryKeyRelatedField(read_only=True)  # Ensure owner exists in the model
+    country = serializers.CharField(source='city.country', read_only=True)  
+    owner = serializers.PrimaryKeyRelatedField(read_only=True)  
+    photo = HotelPhotoSerializer(many=True, read_only=True, source='photos')
 
     class Meta:
         model = Hotel
