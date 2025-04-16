@@ -13,6 +13,12 @@ class Hotel(models.Model):
         (4, "Four Stars"),
         (5, "Five Stars"),
     )
+
+    STATUS_CHOICES = [
+        ('pending', 'Pending Approval'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+    ]
     
     name = models.CharField(
         max_length=100,
@@ -42,7 +48,14 @@ class Hotel(models.Model):
         null=True
         )
 
-    star_rating = models.IntegerField(choices=STAR_RATINGS, default=3, help_text="Star rating from 1 to 5")
+    star_rating = models.IntegerField(
+        choices=STAR_RATINGS, 
+        default=3, help_text="Star rating from 1 to 5"
+    )
+    status = models.CharField(
+        max_length=10, 
+        choices=STATUS_CHOICES, default='pending'
+    )
 
     check_in_time = models.TimeField(default="14:00", )
     check_out_time = models.TimeField(default="11:00")
