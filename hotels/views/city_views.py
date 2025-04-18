@@ -32,3 +32,5 @@ class CityDetailView(APIView):
 
         serializer = CitySerializer(city)
         return Response(serializer.data)
+
+

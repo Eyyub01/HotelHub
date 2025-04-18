@@ -5,7 +5,7 @@ class City(models.Model):
     name = models.CharField(
         max_length=100,
     )
-    country = CountryField()
+    country = CountryField(default='Azerbaijan')
 
     def __str__(self):
         return f'{self.name}, {self.country}'
