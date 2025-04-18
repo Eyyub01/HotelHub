@@ -10,7 +10,7 @@ from hotels.serializers.hotel_serializer import HotelSerializer
 
 @extend_schema(tags=["Hotels"])
 class HotelListCreateAPIView(generics.ListCreateAPIView):
-    queryset = Hotel.objects.all()
+    queryset = Hotel.objects.filter(status="approved")
     serializer_class = HotelSerializer
 
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
