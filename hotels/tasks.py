@@ -1,7 +1,8 @@
 from celery import shared_task
 
 from django.conf import settings
-from django.core.mail import EmailMultiAlternatives
+from django.contrib.auth import get_user_model
+from django.core.mail import send_mail, EmailMultiAlternatives
 
 
 @shared_task
@@ -28,3 +29,20 @@ def send_hotel_created_email(hotel_name, user_email):
     msg = EmailMultiAlternatives(subject, text_content, from_email, to)
     msg.attach_alternative(html_content, "text/html")
     msg.send()
+
+@shared_task
+def send_recommended_hotels_email():
+    users = get_user_model().objects.all()
+    for user in users:
+        # Example: Get hotel recommendations for each user
+        # Replace with actual logic
+        recommended_hotels = ['Hotel A', 'Hotel B', 'Hotel C']
+        hotel_list = "\n".join(recommended_hotels)
+
+        send_mail(
+            subject='Your Daily Recommended Hotels',
+            message=f"Hi {user.username},\nHere are your hotel recommendations:\n{hotel_list}",
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[user.email],
+            fail_silently=False,
+        )

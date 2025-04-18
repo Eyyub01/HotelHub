@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.auth.models import User
 
 from hotels.models.city_models import City
 
@@ -74,4 +73,3 @@ class Hotel(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.city})"
-
