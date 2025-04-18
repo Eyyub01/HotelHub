@@ -14,5 +14,5 @@ class HotelSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'name', 'address', 'phone', 'email', 'description', 
             'star_rating', 'check_in_time', 'check_out_time', 'city', 
-            'country', 'owner', 'created_at', 'updated_at'
+            'country', 'owner', 'created_at', 'updated_at', 'photo'
         ]

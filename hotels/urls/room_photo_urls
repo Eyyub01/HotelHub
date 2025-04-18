@@ -1,0 +1,8 @@
+from django.urls import path
+
+from hotels.views.hotel_photo_views import *
+
+
+urlpatterns = [
+    path('hotel/photos/<int:hotel_id>/', HotelPhotoAPIView.as_view(), name='hotel-photos'),
+]

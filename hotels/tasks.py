@@ -34,8 +34,6 @@ def send_hotel_created_email(hotel_name, user_email):
 def send_recommended_hotels_email():
     users = get_user_model().objects.all()
     for user in users:
-        # Example: Get hotel recommendations for each user
-        # Replace with actual logic
         recommended_hotels = ['Hotel A', 'Hotel B', 'Hotel C']
         hotel_list = "\n".join(recommended_hotels)
 
