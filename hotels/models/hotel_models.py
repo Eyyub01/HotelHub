@@ -55,8 +55,12 @@ class Hotel(models.Model):
         max_length=10, 
         choices=STATUS_CHOICES, default='pending'
     )
+    breakfast_price = models.IntegerField(
+        default=0,
+        help_text="Price of breakfast per person"
+    )
 
-    check_in_time = models.TimeField(default="14:00", )
+    check_in_time = models.TimeField(default="14:00")
     check_out_time = models.TimeField(default="11:00")
 
     created_at = models.DateTimeField(auto_now_add=True)
