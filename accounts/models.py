@@ -13,11 +13,23 @@ class CustomUser(AbstractUser):
         (OWNER, 'Owner')
     )
 
-    role = models.CharField(max_length=10, choices=ROLE_STATUS, default=CUSTOMER)
-    is_owner_requested = models.BooleanField(default=False, verbose_name='Owner Role Requested')
-    is_email_verified = models.BooleanField(default=False)
-    email_verification_code = models.CharField(max_length=6, blank=True, null=True)
-
+    role = models.CharField(
+        max_length=10,
+        choices=ROLE_STATUS,
+        default=CUSTOMER
+    )
+    is_owner_requested = models.BooleanField(
+        default=False,
+        verbose_name='Owner Role Requested'
+    )
+    is_email_verified = models.BooleanField(
+        default=False
+    )
+    email_verification_code = models.CharField(
+        max_length=6,
+        blank=True,
+        null=True
+    )
     groups = models.ManyToManyField(
         Group,
         related_name="customer_set",  

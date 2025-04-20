@@ -2,21 +2,16 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.shortcuts import get_object_or_404
 
 from .models import Booking
 from .serializers import BookingSerializer
-
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
-from rest_framework_simplejwt.authentication import JWTAuthentication
-from utils.pagination import CustomPagination
-from utils.permissions import IsEmailVerified,HeHasPermission
-from rest_framework import status
-from .models import Booking
 from rooms.models.room_models import Room
-from .serializers import BookingSerializer
+
+from utils.pagination import CustomPagination
+from utils.permissions import IsEmailVerified, HeHasPermission
+
 
 class UserBookingsListAPIView(APIView):
     """
@@ -24,11 +19,14 @@ class UserBookingsListAPIView(APIView):
     """
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated, HeHasPermission]
+    pagination_class = CustomPagination
 
     def get(self, request):
+        pagination = self.pagination_class()
         bookings = Booking.objects.filter(user=request.user)
-        serializer = BookingSerializer(bookings, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        result_page = pagination.paginate_queryset(bookings)
+        serializer = BookingSerializer(result_page, many=True)
+        return pagination.get_paginated_response(serializer.data)
     
 
 class CreateBookingAPIView(APIView):
@@ -67,6 +65,6 @@ class BookingDetailAPIView(APIView):
         booking = get_object_or_404(Booking, id=booking_id)
         if request.user == booking.user:
             booking.delete()
-            return Response({'message': 'booking deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+            return Response({'message': 'Booking deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
         return Response({'message': 'You do not have permission for this action'}, status=status.HTTP_403_FORBIDDEN)
 
