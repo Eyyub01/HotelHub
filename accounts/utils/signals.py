@@ -2,7 +2,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from accounts.models import CustomUser
 
-from hotels.utils.tasks import send_verification_code_email
+from accounts.tasks import send_verification_code_email
 from accounts.utils.verification_code import generate_verification_code
 
 @receiver(post_save, sender=CustomUser)
