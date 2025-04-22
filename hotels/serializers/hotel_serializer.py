@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from hotels.models.hotel_models import Hotel
+from hotels.models.hotel_models import Hotel, Review
 from hotels.serializers.hotel_photo_serializer import HotelPhotoSerializer
 
 
@@ -16,3 +16,11 @@ class HotelSerializer(serializers.ModelSerializer):
             'star_rating', 'check_in_time', 'check_out_time', 'city', 
             'country', 'owner', 'created_at', 'updated_at', 'photo'
         ]
+
+
+class ReviewSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField(read_only=True)
+
+    class Meta:
+        model = Review
+        fields = ['id', 'user', 'rating', 'comment', 'created_at']

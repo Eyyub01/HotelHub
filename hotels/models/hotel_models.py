@@ -1,8 +1,12 @@
 from django.db import models
+from django.contrib.auth import get_user_model
 
 from hotels.models.city_models import City
 
 from django.core.validators import RegexValidator
+
+User = get_user_model()
+
 
 class Hotel(models.Model):
     STAR_RATINGS = (
@@ -77,3 +81,14 @@ class Hotel(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.city})"
+
+
+class Review(models.Model):
+    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, related_name='reviews')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    rating = models.PositiveIntegerField()
+    comment = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('hotel', 'user')

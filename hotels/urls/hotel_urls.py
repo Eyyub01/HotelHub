@@ -1,7 +1,8 @@
 from django.urls import path
 
 from hotels.views.hotel_views import(
-    HotelListCreateAPIView, HotelRetrieveUpdateDestroy
+    HotelListCreateAPIView, HotelRetrieveUpdateDestroy,
+    WishlistView, HotelReviewListCreateView
 )
 
 
@@ -15,5 +16,20 @@ urlpatterns = [
         'hotels/<int:pk>/', 
         HotelRetrieveUpdateDestroy.as_view(),
         name='hotel-detail'
+    ),
+    path(
+        'hotels/<int:hotel_id>/reviews/', 
+        HotelReviewListCreateView.as_view(), 
+        name='hotel-reviews'
+    ),
+    path(
+        'profile/<int:user_id>/wishlist/', 
+        WishlistView.as_view(), 
+        name='wishlist'
+    ),
+    path(
+        'profile/<int:user_id>/wishlist/<int:hotel_id>/', 
+        WishlistView.as_view(), 
+        name='wishlist-remove'
     ),
 ]
