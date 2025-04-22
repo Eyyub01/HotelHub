@@ -1,7 +1,9 @@
 from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.core.exceptions import ValidationError
-
 from django.db import models
+
+from hotels.models.hotel_models import Hotel
+
 
 class CustomUser(AbstractUser):
 
@@ -55,6 +57,11 @@ class CustomUser(AbstractUser):
     updated_at = models.DateTimeField(
         auto_now=True,
         verbose_name=('updated at')
+    )
+
+    wishlist = models.ManyToManyField(
+        Hotel, blank=True, 
+        related_name='wishlisted_by'
     )
 
     def clean(self):
