@@ -1,9 +1,10 @@
 from django.urls import path  
+from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
+
 from rest_framework_simplejwt import views 
 
 from accounts.views import *
-
 
 urlpatterns = [
     path('register/', RegisterAPIView.as_view(), name='register'),
@@ -18,4 +19,7 @@ urlpatterns = [
     
     path('api/token/', csrf_exempt(views.TokenObtainPairView.as_view()), name='token-obtain-pair'),
     path('api/token/refresh/', csrf_exempt(views.TokenRefreshView.as_view()), name='token-refresh'),
+
+    path('register-form/', lambda request: render(request, 'accounts/registration.html'), name='register-form'),
+    path('verify-form/', lambda request: render(request, 'accounts/verification.html'), name='verify-form'),
 ]

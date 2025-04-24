@@ -1,3 +1,5 @@
+import os
+
 from pathlib import Path
 from datetime import timedelta
 
@@ -40,7 +42,8 @@ INSTALLED_APPS = [
     'django_countries',
     'django_filters',
     'django_celery_beat',
-    'rest_framework_simplejwt'
+    'rest_framework_simplejwt',
+    'django_redis',
 ]
 
 REST_FRAMEWORK = {
@@ -165,7 +168,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-CELERY_BROKER_URL = 'redis://localhost:6379/0'  # Redis URL
+CELERY_BROKER_URL = 'redis://localhost:6379/0' 
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers.DatabaseScheduler'
@@ -203,10 +206,9 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'abbaszadeeyyub@gmail.com'  
-EMAIL_HOST_PASSWORD = 'your-email-password' 
+EMAIL_HOST_PASSWORD = 'boct xmvn eifl sltf' 
 
-#Cache settings
-import os
+
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
