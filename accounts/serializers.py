@@ -73,23 +73,34 @@ class LoginSerializer(serializers.Serializer):
     password = serializers.CharField(write_only=True)
 
     def validate(self, data):
-        email = data.get("email")
-        password = data.get("password")
-        user = authenticate(username=email, password=password)
-        if user is None:
-            raise serializers.ValidationError("Invalid email or password.")
-        if not user.is_active:
-            raise serializers.ValidationError("This user is deactivated.")
-        refresh = RefreshToken.for_user(user)
-        return {
-            "access": str(refresh.access_token),
-            "refresh": str(refresh),
-            "user": {
-                "username": user.username,
-                "email": user.email,
-                "role": user.role,
+        email = data.get('email')
+        password = data.get('password')
+
+        if not email or not password:
+            raise serializers.ValidationError('Email and password are required')
+
+        try:
+            user = CustomUser.objects.get(email=email)
+            user = authenticate(username=user.username, password=password)
+            if not user:
+                raise serializers.ValidationError('Incorrect password')
+            if not user.is_active:
+                raise serializers.ValidationError('This user is deactivated')
+            refresh = RefreshToken.for_user(user)
+            return {
+                'access': str(refresh.access_token),
+                'refresh': str(refresh),
+                'user': {
+                    'username': user.username,
+                    'email': user.email,
+                    'role': user.role
+                }
             }
-        }
+        except CustomUser.DoesNotExist:
+            raise serializers.ValidationError({
+                'non_field_errors': ['No such account. Please register'],
+                'register': True
+            })
 
 
 class LogoutSerializer(serializers.Serializer):
