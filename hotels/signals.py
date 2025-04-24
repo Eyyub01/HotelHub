@@ -14,7 +14,7 @@ def clear_hotel_photo_cache(sender, instance, **kwargs):
 
 
 @receiver([post_save, post_delete], sender=Hotel)
-def clear_review_cache(sender, instance, **kwargs):
-    hotel_id = instance.hotel.id
+def clear_hotel_cache(sender, instance, **kwargs):
+    hotel_id = instance.id
     cache_key = f"views.decorators.cache.cache_page.hotel_reviews.{hotel_id}"
     cache.delete(cache_key)
