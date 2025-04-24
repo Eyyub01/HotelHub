@@ -8,10 +8,14 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
 from django.contrib.auth import get_user_model
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 
 from hotels.models.hotel_models import Hotel, Review
 from hotels.serializers.hotel_serializer import HotelSerializer, ReviewSerializer
 from utils.permissions import  HeHasPermission, IsOwnerOrReadOnly, IsEmailVerified
+from hotelhub.settings import CACHE_TIMEOUT
+
 
 User = get_user_model()
 
@@ -26,7 +30,11 @@ class HotelListCreateAPIView(generics.ListCreateAPIView):
     search_fields = ['name']
 
     permission_classes = [AllowAny]
-    authentication_classes = [JWTAuthentication]  
+    authentication_classes = [JWTAuthentication]
+
+    @method_decorator(cache_page(CACHE_TIMEOUT))
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)  
     
 
 @extend_schema(tags=["Hotels"])

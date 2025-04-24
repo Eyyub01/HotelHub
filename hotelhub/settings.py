@@ -204,3 +204,17 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'abbaszadeeyyub@gmail.com'  
 EMAIL_HOST_PASSWORD = 'your-email-password' 
+
+#Cache settings
+import os
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': os.getenv('REDIS_URL', 'redis://127.0.0.1:6379/1'),
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
+}
+
+CACHE_TIMEOUT = 60*5
