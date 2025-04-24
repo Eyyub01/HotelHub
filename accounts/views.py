@@ -5,7 +5,8 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 from django.db import transaction
-from django.core.exceptions import ObjectDoesNotExist
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 
 from accounts.serializers import *
 from utils.permissions import HeHasPermission, IsOwnerOrReadOnly, IsEmailVerified
@@ -51,12 +52,19 @@ class VerifyEmailAPIView(APIView):
 
 
 class LoginAPIView(APIView):
+    """User login endpoint (public access)."""
     permission_classes = [AllowAny]
 
     def post(self, request):
-        serializer = LoginSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        return Response(serializer.validated_data, status=status.HTTP_200_OK)
+        try:
+            serializer = LoginSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            data = serializer.validated_data
+            return Response(serializer.validated_data, status=status.HTTP_200_OK)
+        except serializers.ValidationError as e:
+            if 'account' in str(e):
+                return HttpResponseRedirect(reverse('register'))
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class LogoutAPIView(APIView):
