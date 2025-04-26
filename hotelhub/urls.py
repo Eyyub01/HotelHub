@@ -10,6 +10,11 @@ urlpatterns = [
     path('api/v1/', include('hotels.urls')),
     path('api/v1/', include('accounts.urls')),
     path('api/v1/', include('rooms.urls')),
+<<<<<<< HEAD
+=======
+    path('api/v1/', include('bookings.urls')),
+    path("chat/", include("chat.urls")),
+>>>>>>> 6c0e48e (ADD django channels with websocker feature)
 
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),

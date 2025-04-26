@@ -20,6 +20,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    "daphne",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -31,6 +32,12 @@ INSTALLED_APPS = [
     'hotels',
     'accounts',
     'rooms',
+<<<<<<< HEAD
+=======
+    'bookings',
+    'favorites',
+    'chat',
+>>>>>>> 6c0e48e (ADD django channels with websocker feature)
 
     # Third-party apps
     'rest_framework',
@@ -93,7 +100,17 @@ TEMPLATES = [
     },
 ]
 
+ASGI_APPLICATION = "hotelhub.asgi.application"
 WSGI_APPLICATION = 'hotelhub.wsgi.application'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
 
 
 # Database
