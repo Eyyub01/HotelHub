@@ -27,6 +27,7 @@ class Booking(models.Model):
     )
     check_in_date = models.DateField(verbose_name="Check-In Date")
     check_out_date = models.DateField(verbose_name="Check-Out Date")
+    breakfast_order = models.BooleanField(default=False, verbose_name='Breakfast')
     total_price = models.DecimalField(
         max_digits=10,
         decimal_places=2,
@@ -57,7 +58,10 @@ class Booking(models.Model):
     
     def save(self, *args, **kwargs):
         self.clean()
-        self.total_price = self.number_of_nights() + self.hotel.breakfast_price
+        if self.breakfast_order == True:
+            self.total_price = self.number_of_nights() + self.hotel.breakfast_price
+        else:
+            self.total_price = self.number_of_nights()
         super().save(*args, **kwargs)
 
     def __str__(self):

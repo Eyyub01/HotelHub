@@ -28,4 +28,8 @@ CELERY_BEAT_SCHEDULE = {
         'task': 'send_recommended_hotels_email',
         'schedule': crontab(minute=0, hour=9),  # Hər gün saat 09:00-da işləsin
     },
+      'free-expired-rooms-nightly': {
+        'task': 'bookings.tasks.free_expired_rooms',
+        'schedule': crontab(hour=3, minute=0),  # Hər gecə saat 3:00-da
+    },
 }

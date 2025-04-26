@@ -17,7 +17,6 @@ colorama = "==0.4.6"
 cron-descriptor = "==1.4.5"
 dj-database-url = "==2.3.0"
 django = "==5.1.8"
-django-celery-beat = "==2.7.0"
 django-countries = "==7.6.1"
 django-filter = "==25.1"
 django-timezone-field = "==7.1"
@@ -52,6 +51,7 @@ uritemplate = "==4.1.1"
 vine = "==5.1.0"
 wcwidth = "==0.2.13"
 django-redis = "*"
+django-celery-beat = "*"
 
 [dev-packages]
 
