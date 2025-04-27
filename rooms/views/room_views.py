@@ -3,6 +3,9 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 from django.shortcuts import get_object_or_404
+from elasticsearch_dsl import Search
+from elasticsearch_dsl import Q
+import hashlib
 
 from rooms.models.room_models import Room
 from hotels.models.hotel_models import Hotel
@@ -86,32 +89,61 @@ class RoomsForHotelAPIView(APIView):
         return Response({'message': 'There are not any rooms'}, status=status.HTTP_404_NOT_FOUND)
 
 
-class RoomFilterAPIView(APIView):
+class RoomElasticSearchAPIView(APIView):
     permission_classes = [AllowAny]
     pagination_class = CustomPagination
 
     def get(self, request, *args, **kwargs):
-        queryset = Room.objects.filter(is_available=True)
-
-        hotel = request.query_params.get('hotel')
-        type = request.query_params.get('type')
-        min_price = request.query_params.get('min_price')
-        max_price = request.query_params.get('max_price')
-
-        if hotel:
-            queryset = queryset.filter(hotel__name__icontains=hotel)
-        if type:
-            queryset = queryset.filter(type__iexact=type)
-        if min_price:
-            queryset = queryset.filter(price__gte=min_price)
-        if max_price:
-            queryset = queryset.filter(price__lte=max_price)
-
-        if not queryset.exists():
-            return Response({'message': 'No rooms found ror your request'}, status=status.HTTP_404_NOT_FOUND)
-        
-
         pagination = self.pagination_class()
-        result_page = pagination.paginate_queryset(queryset, request)
+        page = int(request.query_params.get('page', 1))
+        page_size = self.pagination_class.page_size
+
+        room_number = request.query_params.get('room_number', None)
+        room_type = request.query_params.get('room_type', None)
+        min_price = request.query_params.get('min_price', None)
+        max_price = request.query_params.get('max_price', None)
+        hotel_id = request.query_params.get('hotel_id', None)
+        is_available = request.query_params.get('is_available', None)
+
+        cache_key = hashlib.md5(
+            f'room_search_room_number_{room_number}_room_type_{room_type}_'
+            f'min_price_{min_price}_max_price_{max_price}_hotel_id_{hotel_id}_'
+            f'is_available_{is_available}_page_{page}_page_size_{page_size}'.encode()
+        ).hexdigest()
+
+        cached_data = cache.get(cache_key)
+        if cached_data:
+            return Response(cached_data, status=status.HTTP_200_OK)
+
+        search = Search(index="rooms")
+        query = Q('bool', must=[])
+
+        if room_number:
+            query['must'].append(Q("match", room_number=room_number))
+        if room_type:
+            query['must'].append(Q("term", type=room_type))
+        if min_price:
+            query['must'].append(Q("range", price={"gte": min_price}))
+        if max_price:
+            query['must'].append(Q("range", price={"lte": max_price}))
+        if hotel_id:
+            query['must'].append(Q("term", hotel=hotel_id))
+        if is_available is not None:
+            query['must'].append(Q("term", is_available=is_available.lower() == 'true'))
+
+        search = search.query(query)[(page-1)*page_size:page*page_size]
+        response = search.execute()
+
+        rooms = [{
+            'room_number': hit.room_number,
+            'type': hit.type,
+            'price': hit.price,
+            'is_available': hit.is_available,
+            'hotel_name': hit.hotel['name'],
+        } for hit in response]
+
+        result_page = pagination.paginate_queryset(rooms, request)
         serializer = RoomSerializer(result_page, many=True)
-        return pagination.get_paginated_response(serializer.data)
+        paginated_response = pagination.get_paginated_response(serializer.data).data
+        cache.set(cache_key, paginated_response, timeout=CACHE_TIMEOUT)
+        return Response(paginated_response, status=status.HTTP_200_OK)
