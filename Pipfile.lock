@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "d42525de0068cd70f948b496ecd56df54258a5813209e8601cb10cd9b4aad7c0"
+            "sha256": "2144d1a51a1fb26a0f7c2b62fd5625b1be6c2172d604e53bfd44eefb4a2211ee"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -59,6 +59,14 @@
             "index": "pypi",
             "markers": "python_version >= '3.8'",
             "version": "==5.5.1"
+        },
+        "certifi": {
+            "hashes": [
+                "sha256:0a816057ea3cdefcef70270d2c515e4506bbc954f417fa5ade2021213bb8f0c6",
+                "sha256:30350364dfe371162649852c63336a15c70c6510c2ad5015b21c2345311805f3"
+            ],
+            "markers": "python_version >= '3.6'",
+            "version": "==2025.4.26"
         },
         "click": {
             "hashes": [
@@ -146,6 +154,15 @@
             "index": "pypi",
             "version": "==7.6.1"
         },
+        "django-elasticsearch-dsl": {
+            "hashes": [
+                "sha256:423784a4af336d109c3763622f1edc4973664cb5154beb55b3ff9390c1e4525e",
+                "sha256:64ee0612ced6d57515a6b7f29f1a3e1c2eea1996a6226fc72079a95c067b27ca"
+            ],
+            "index": "pypi",
+            "markers": "python_version >= '3.8'",
+            "version": "==8.0"
+        },
         "django-filter": {
             "hashes": [
                 "sha256:1ec9eef48fa8da1c0ac9b411744b16c3f4c31176c867886e4c48da369c407153",
@@ -208,6 +225,31 @@
             "index": "pypi",
             "markers": "python_version >= '3.6'",
             "version": "==1.21.10"
+        },
+        "elastic-transport": {
+            "hashes": [
+                "sha256:192718f498f1d10c5e9aa8b9cf32aed405e469a7f0e9d6a8923431dbb2c59fb8",
+                "sha256:5edef32ac864dca8e2f0a613ef63491ee8d6b8cfb52881fa7313ba9290cac6d2"
+            ],
+            "markers": "python_version >= '3.8'",
+            "version": "==8.17.1"
+        },
+        "elasticsearch": {
+            "hashes": [
+                "sha256:4fb28cfe82d480c72fc049e659afe4cad450b318c210e43493ca402e900793eb",
+                "sha256:b26a6e67958b7bd04711a31f3400197aabf4a6f03873eadce1a0aeb446653886"
+            ],
+            "markers": "python_version >= '3.8'",
+            "version": "==8.18.0"
+        },
+        "elasticsearch-dsl": {
+            "hashes": [
+                "sha256:0522c5bb20c7abae69855109e650bf1166d486cbf706b5e1b29c28936a9102a3",
+                "sha256:763465dba9eae166add10567e924c65730aa122819b08bfe9a077e91b13b30d1"
+            ],
+            "index": "pypi",
+            "markers": "python_version >= '3.8'",
+            "version": "==8.18.0"
         },
         "hiredis": {
             "hashes": [
@@ -774,6 +816,14 @@
             "index": "pypi",
             "markers": "python_version >= '3.6'",
             "version": "==4.1.1"
+        },
+        "urllib3": {
+            "hashes": [
+                "sha256:414bc6535b787febd7567804cc015fee39daab8ad86268f1310a9250697de466",
+                "sha256:4e16665048960a0900c702d4a66415956a584919c03361cac9f1df5c5dd7e813"
+            ],
+            "markers": "python_version >= '3.9'",
+            "version": "==2.4.0"
         },
         "vine": {
             "hashes": [

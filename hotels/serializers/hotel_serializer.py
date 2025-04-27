@@ -5,7 +5,7 @@ from hotels.serializers.hotel_photo_serializer import HotelPhotoSerializer
 
 
 class HotelSerializer(serializers.ModelSerializer):
-    country = serializers.CharField(source='city.country', read_only=True)  
+    city = serializers.CharField(source='city.__str__')  
     owner = serializers.PrimaryKeyRelatedField(read_only=True)  
     photo = HotelPhotoSerializer(many=True, read_only=True, source='photos')
 

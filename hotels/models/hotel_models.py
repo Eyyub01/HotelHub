@@ -78,6 +78,11 @@ class Hotel(models.Model):
             models.Index(fields=['name']),
         ]
         ordering = ['name'] 
+    
+    def clean(self):
+        if self.phone:
+            self.phone = self.phone.replace(' ', '')
+        super().clean()
 
     def __str__(self):
         return f"{self.name} ({self.city})"

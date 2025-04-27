@@ -4,6 +4,7 @@ from django.core.cache import cache
 
 from hotels.models.hotel_photo_models import HotelPhoto
 from hotels.models.hotel_models import Hotel
+from .documents import HotelDocument
 
 
 #Hotel cache signals
@@ -18,3 +19,4 @@ def clear_hotel_cache(sender, instance, **kwargs):
     hotel_id = instance.id
     cache_key = f"views.decorators.cache.cache_page.hotel_reviews.{hotel_id}"
     cache.delete(cache_key)
+

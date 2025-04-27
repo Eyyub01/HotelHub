@@ -52,6 +52,8 @@ vine = "==5.1.0"
 wcwidth = "==0.2.13"
 django-redis = "*"
 django-celery-beat = "*"
+elasticsearch-dsl = "*"
+django-elasticsearch-dsl = "*"
 
 [dev-packages]
 

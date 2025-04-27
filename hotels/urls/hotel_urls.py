@@ -2,7 +2,7 @@ from django.urls import path
 
 from hotels.views.hotel_views import(
     HotelListCreateAPIView, HotelRetrieveUpdateDestroy,
-    WishlistView, HotelReviewListCreateView
+    WishlistView, HotelReviewListCreateView, HotelElasticSearchAPIView
 )
 
 
@@ -11,6 +11,11 @@ urlpatterns = [
         'hotels/', 
         HotelListCreateAPIView.as_view(), 
         name='hotels'
+    ),
+    path(
+        'hotels/search/', 
+        HotelElasticSearchAPIView.as_view(), 
+        name='hotel-search'
     ),
     path(
         'hotels/<int:pk>/', 

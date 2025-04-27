@@ -72,7 +72,8 @@ class HotelAdmin(admin.ModelAdmin):
                 return redirect(request.path)
 
         return super().change_view(request, object_id, form_url, extra_context)
-
+    
+   
 
 admin.site.register(Hotel, HotelAdmin)
 admin.site.register(HotelPhoto)
