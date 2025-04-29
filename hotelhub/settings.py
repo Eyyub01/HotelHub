@@ -170,6 +170,7 @@ CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers.DatabaseScheduler'
 
+#Logging settings
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -184,15 +185,55 @@ LOGGING = {
         },
     },
     "handlers": {
-        "console": { 
-            "class": "logging.StreamHandler",  
-            "formatter": "verbose",  
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
+        },
+        "middleware_file": {
+            "class": "logging.FileHandler",
+            "filename": os.path.join(BASE_DIR, "logging/middleware.log"),
+            "formatter": "verbose",
+        },
+        "hotels_file": {
+            "class": "logging.FileHandler",
+            "filename": os.path.join(BASE_DIR, "logging/hotels.log"),
+            "formatter": "verbose",
+        },
+        "rooms_file": {
+            "class": "logging.FileHandler",
+            "filename": os.path.join(BASE_DIR, "logging/rooms.log"),
+            "formatter": "verbose",
+        },
+        "bookings_file": {
+            "class": "logging.FileHandler",
+            "filename": os.path.join(BASE_DIR, "logging/bookings.log"),
+            "formatter": "verbose",
         },
     },
     "loggers": {
         "django": {
-            "handlers": ["console"],  
-            "level": "INFO",  
+            "handlers": ["console"],
+            "level": "INFO",
+        },
+        "middleware_logger": {
+            "handlers": ["middleware_file"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        "hotels_logger": {
+            "handlers": ["hotels_file"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        "rooms_logger": {
+            "handlers": ["rooms_file"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        "bookings_logger": {
+            "handlers": ["bookings_file"],
+            "level": "INFO",
+            "propagate": False,
         },
     },
 }
