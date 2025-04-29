@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 from datetime import timedelta
 
@@ -32,12 +33,9 @@ INSTALLED_APPS = [
     'hotels',
     'accounts',
     'rooms',
-<<<<<<< HEAD
-=======
     'bookings',
     'favorites',
     'chat',
->>>>>>> 6c0e48e (ADD django channels with websocker feature)
 
     # Third-party apps
     'rest_framework',
