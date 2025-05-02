@@ -210,3 +210,133 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 For support, email support@hotelhub.com or join our Slack channel.
 
+## 📁 Project Structure
+
+```
+hotelhub/
+├── accounts/                 # User authentication and profile management
+├── bookings/                # Booking system and reservation management
+├── chat/                    # Real-time chat functionality
+├── favorites/               # User favorites and saved items
+├── hotels/                  # Hotel management and operations
+├── rooms/                   # Room management and availability
+├── utils/                   # Utility functions and helpers
+├── logging/                 # Logging configuration and handlers
+├── hotelhub/                # Project configuration
+│   ├── settings.py          # Django settings
+│   ├── urls.py              # Main URL routing
+│   ├── asgi.py              # ASGI configuration
+│   ├── celery.py            # Celery configuration
+│   ├── wsgi.py              # WSGI configuration
+│   └── middlewares/         # Custom middleware
+├── docs/                    # Documentation
+├── manage.py                # Django management script
+├── requirements.txt         # Python dependencies
+├── Pipfile                  # Pipenv dependencies
+├── Dockerfile              # Docker configuration
+├── docker-compose.yml      # Docker services configuration
+├── Makefile                # Common commands
+└── .dockerignore           # Docker ignore rules
+```
+
+### Key Components
+
+- **accounts/**: Handles user authentication, registration, and profile management
+- **bookings/**: Manages room reservations, availability, and booking operations
+- **chat/**: Implements real-time messaging using WebSockets
+- **favorites/**: Manages user's saved hotels and rooms
+- **hotels/**: Core hotel management functionality
+- **rooms/**: Room type management and availability system
+- **utils/**: Shared utilities and helper functions
+- **logging/**: Centralized logging configuration
+- **hotelhub/**: Project configuration and settings
+
+
+### Docker Setup
+
+1. **Build and start containers**
+```bash
+docker-compose up --build
+```
+
+2. **Run migrations**
+```bash
+docker-compose exec web python manage.py migrate
+```
+
+3. **Create superuser**
+```bash
+docker-compose exec web python manage.py createsuperuser
+```
+
+## 🔧 Technology Stack Details
+
+### Backend Services
+
+- **Django 5.1.8**
+  - Django REST Framework for API development
+  - Django Channels for WebSocket support
+  - Django Celery Beat for scheduled tasks
+  - Django Debug Toolbar for development
+  - Django CORS Headers for cross-origin requests
+
+- **Database**
+  - PostgreSQL 15+ for production
+  - SQLite for development
+  - Redis for caching and message broker
+  - Elasticsearch for advanced search functionality
+
+- **Task Queue**
+  - Celery for asynchronous tasks
+  - Redis as message broker
+  - Flower for monitoring Celery tasks
+
+- **Search**
+  - Elasticsearch 8.0+ for full-text search
+  - Django Elasticsearch DSL for integration
+
+### Development Tools
+
+- **Code Quality**
+  - Black for code formatting
+  - Flake8 for linting
+  - isort for import sorting
+  - mypy for type checking
+
+- **Testing**
+  - pytest for testing framework
+  - pytest-django for Django integration
+  - coverage for code coverage
+  - factory-boy for test factories
+
+- **Documentation**
+  - DRF Spectacular for API documentation
+  - Sphinx for project documentation
+  - Swagger/OpenAPI for API specification
+
+## 📊 Monitoring and Logging
+
+### Logging Configuration
+- Structured logging with JSON format
+- Different log levels for development and production
+- Log rotation and file management
+- Integration with monitoring services
+
+### Performance Monitoring
+- Django Debug Toolbar for development
+- Prometheus metrics
+- Grafana dashboards
+- Error tracking with Sentry
+
+## 🔐 Security Features
+
+- JWT-based authentication
+- Rate limiting for API endpoints
+- CORS protection
+- CSRF protection
+- Password hashing with Argon2
+- Secure session management
+- Input validation and sanitization
+- SQL injection protection
+- XSS protection
+
