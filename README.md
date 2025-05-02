@@ -363,7 +363,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👥 Authors
 
-- Your Name - Initial work - [GitHub](https://github.com/yourusername)
+- Eyyub, Əhmed, Əbil – Initial Work – [Eyyub](https://github.com/Eyyub01) | [Ehmed](https://github.com/hmd37) | [Əbil](https://github.com/ebilebilli)
+
 
 ## 🙏 Acknowledgments
 
@@ -375,10 +376,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 For support, email support@hotelhub.com or join our Slack channel.
 
-## 🔮 Roadmap
-
-- [ ] Payment Gateway Integration
-- [ ] Mobile App Development
-- [ ] Advanced Analytics Dashboard
-- [ ] Multi-language Support
-- [ ] Hotel Chain Management Features 
