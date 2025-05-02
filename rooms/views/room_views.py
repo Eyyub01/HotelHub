@@ -25,8 +25,8 @@ class RoomListAPIView(APIView):
     pagination_class = CustomPagination
 
     def get(self, request):
-        page = request.query_params.get('page', '1')
-        page_size = request.query_params.get('page_size', '10')
+        page = int(request.query_params.get('page', '1'))
+        page_size = int(request.query_params.get('page_size', '10'))
         cache_key = f'Room_list_page_{page}_size_{page_size}'
         cached_data = cache.get(cache_key)
         if cached_data:
@@ -93,8 +93,8 @@ class RoomsForHotelAPIView(APIView):
 
     def get(self, request, hotel_id):
         user = request.user
-        page = request.query_params.get('page', '1')
-        page_size = request.query_params.get('page_size', '10')
+        page = int(request.query_params.get('page', '1'))
+        page_size = int(request.query_params.get('page_size', '10'))
         cache_code = f'Rooms_for_hotel_{hotel_id}_page_{page}_size_{page_size}'
         cached_data = cache.get(cache_code)
         if cached_data:

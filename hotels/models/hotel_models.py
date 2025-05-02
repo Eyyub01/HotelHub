@@ -22,7 +22,14 @@ class Hotel(models.Model):
         ('approved', 'Approved'),
         ('rejected', 'Rejected'),
     ]
-    
+
+    owner = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='owned_hotels',
+        limit_choices_to={'role': 'Owner'},
+        verbose_name='Hotel Owner'
+    )
     name = models.CharField(
         max_length=100,
         unique=True

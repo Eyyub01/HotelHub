@@ -5,9 +5,10 @@ from django.core.cache import cache
 from datetime import datetime
 
 from hotels.models.hotel_photo_models import HotelPhoto
-from hotels.models.hotel_models import Hotel
+from hotels.models.hotel_models import Hotel, Review
 from .documents import HotelDocument
 
+logger = logging.getLogger("hotels")
 
 #Hotel cache signals
 @receiver([post_save, post_delete], sender=HotelPhoto)
@@ -23,13 +24,32 @@ def clear_hotel_cache(sender, instance, **kwargs):
     cache.delete(cache_key)
 
 
-#Hotel logging signals
-logger = logging.getLogger('djnango')
-
+#Hotel log signals
 @receiver(post_save, sender=Hotel)
-def log_hotel_model_save(sender, instance, created, **kwargs):
+def log_hotel_save(sender, instance, created, **kwargs):
     if created:
-        logger.info('Hotel_{instance.id}_created_by_user_{instance.owner}')
+        logger.info(f"New hotel created: {instance.name} (owner: {instance.owner.username})")
+    else:
+        logger.info(f"Hotel updated: {instance.name} (owner: {instance.owner.username})")
+
+
+@receiver(post_delete, sender=Hotel)
+def log_hotel_delete(sender, instance, **kwargs):
+    logger.info(f"Hotel deleted: {instance.name}")
+
+
+# Review log signals
+@receiver(post_save, sender=Review)
+def log_review_save(sender, instance, created, **kwargs):
+    if created:
+        logger.info(f"New review created for {instance.hotel.name} by {instance.user.username}")
+    else:
+        logger.info(f"Review updated for {instance.hotel.name} by {instance.user.username}")
+
+
+@receiver(post_delete, sender=Review)
+def log_review_delete(sender, instance, **kwargs):
+    logger.info(f"Review deleted for {instance.hotel.name} by {instance.user.username}")
 
 
 

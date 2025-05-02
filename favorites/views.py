@@ -22,8 +22,8 @@ class FavoriteListAPIView(APIView):
 
     def get(self, request):
         user = request.user
-        page = request.query_params.get('page', '1')
-        page_size = request.query_params.get('page_size', '10')
+        page = int(request.query_params.get('page', '1'))
+        page_size = int(request.query_params.get('page_size', '10'))
         cache_key = f'Favorite_list_user_{user.id}_page_{page}_size_{page_size}'
         cached_data = cache.get(cache_key)
         if cached_data:

@@ -187,13 +187,13 @@ LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
     "formatters": {
-        'verbose': {
-            'format': '{levelname} {asctime} {message}',
-            'style': '{',
+        "verbose": {
+            "format": "{levelname} {asctime} {module} {process:d} {thread:d} {message}",
+            "style": "{",
         },
-        'simple': {
-            'format': '{levelname} {message}',
-            'style': '{',
+        "simple": {
+            "format": "{levelname} {asctime} {message}",
+            "style": "{",
         },
     },
     "handlers": {
@@ -201,9 +201,10 @@ LOGGING = {
             "class": "logging.StreamHandler",
             "formatter": "verbose",
         },
-        "middleware_file": {
+        # App-specific log files
+        "accounts_file": {
             "class": "logging.FileHandler",
-            "filename": os.path.join(BASE_DIR, "logging/middleware.log"),
+            "filename": os.path.join(BASE_DIR, "logging/accounts.log"),
             "formatter": "verbose",
         },
         "hotels_file": {
@@ -221,29 +222,50 @@ LOGGING = {
             "filename": os.path.join(BASE_DIR, "logging/bookings.log"),
             "formatter": "verbose",
         },
+        "favorites_file": {
+            "class": "logging.FileHandler",
+            "filename": os.path.join(BASE_DIR, "logging/favorites.log"),
+            "formatter": "verbose",
+        },
+        "chat_file": {
+            "class": "logging.FileHandler",
+            "filename": os.path.join(BASE_DIR, "logging/chat.log"),
+            "formatter": "verbose",
+        },
     },
     "loggers": {
         "django": {
             "handlers": ["console"],
             "level": "INFO",
         },
-        "middleware_logger": {
-            "handlers": ["middleware_file"],
+        # App-specific loggers
+        "accounts": {
+            "handlers": ["accounts_file"],
             "level": "INFO",
             "propagate": False,
         },
-        "hotels_logger": {
+        "hotels": {
             "handlers": ["hotels_file"],
             "level": "INFO",
             "propagate": False,
         },
-        "rooms_logger": {
+        "rooms": {
             "handlers": ["rooms_file"],
             "level": "INFO",
             "propagate": False,
         },
-        "bookings_logger": {
+        "bookings": {
             "handlers": ["bookings_file"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        "favorites": {
+            "handlers": ["favorites_file"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        "chat": {
+            "handlers": ["chat_file"],
             "level": "INFO",
             "propagate": False,
         },
