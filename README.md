@@ -4,8 +4,15 @@
 [![Python](https://img.shields.io/badge/Python-3.12+-blue.svg)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Docker](https://img.shields.io/badge/Docker-✓-blue.svg)](https://www.docker.com/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15+-blue.svg)](https://www.postgresql.org/)
+[![Redis](https://img.shields.io/badge/Redis-6.0+-red.svg)](https://redis.io/)
+[![Elasticsearch](https://img.shields.io/badge/Elasticsearch-8.0+-green.svg)](https://www.elastic.co/)
+[![Celery](https://img.shields.io/badge/Celery-✓-green.svg)](https://docs.celeryq.dev/)
 
 HotelHub is a modern, scalable hotel management system built with Django, featuring real-time chat capabilities, comprehensive booking management, and robust user authentication. Designed for both small boutique hotels and large hotel chains, HotelHub provides a complete solution for managing accommodations, bookings, and guest communications.
+## 👥  Project Owners 
+- Eyyub, Ehmed, Əbil – [Eyyub](https://github.com/Eyyub01) | [Əhmed](https://github.com/hmd37) | [Əbil](https://github.com/ebilebilli)
+
 
 ## 🌟 Key Features
 
@@ -360,11 +367,6 @@ repos:
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 👥 Authors
-
-- Eyyub, Əhmed, Əbil – Initial Work – [Eyyub](https://github.com/Eyyub01) | [Ehmed](https://github.com/hmd37) | [Əbil](https://github.com/ebilebilli)
-
 
 ## 🙏 Acknowledgments
 
