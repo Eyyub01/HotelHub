@@ -81,6 +81,7 @@ HotelHub is a modern, scalable hotel management system built with Django, featur
   - Django REST Framework - API development
   - Django Channels - WebSocket support
   - Celery - Task queue management
+  - Celery Beat - Periodically check, Automatically set
   - Redis - Caching and message broker
   - Elasticsearch - Search functionality
   - DRF Spectacular - API documentation
@@ -95,7 +96,7 @@ HotelHub is a modern, scalable hotel management system built with Django, featur
 - Docker
 - Docker Compose
 - Nginx (planned)
-- Gunicorn (planned)
+
 
 ## 📦 Prerequisites
 
@@ -105,137 +106,6 @@ HotelHub is a modern, scalable hotel management system built with Django, featur
 - Elasticsearch 8.0+
 - PostgreSQL 15+ (for production)
 
-## 🚀 Getting Started
-
-### Local Development Setup
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/yourusername/hotelhub.git
-   cd hotelhub
-   ```
-
-2. **Create and activate virtual environment**
-   ```bash
-   python -m venv venv
-   # On Windows
-   .\venv\Scripts\activate
-   # On Unix or MacOS
-   source venv/bin/activate
-   ```
-
-3. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Environment Configuration**
-   Create a `.env` file in the project root:
-   ```env
-   # Django Settings
-   DEBUG=True
-   SECRET_KEY=your-secret-key-here
-   ALLOWED_HOSTS=localhost,127.0.0.1
-   
-   # Database Settings
-   DB_ENGINE=django.db.backends.sqlite3
-   DB_NAME=db.sqlite3
-   
-   # Redis Settings
-   REDIS_URL=redis://redis:6379/1
-   CELERY_BROKER_URL=redis://redis:6379/0
-   CELERY_RESULT_BACKEND=redis://redis:6379/0
-   
-   # Email Settings
-   EMAIL_HOST=smtp.gmail.com
-   EMAIL_PORT=587
-   EMAIL_USE_TLS=True
-   EMAIL_HOST_USER=your-email@gmail.com
-   EMAIL_HOST_PASSWORD=your-app-password
-   ```
-
-5. **Database Setup**
-   ```bash
-   python manage.py migrate
-   python manage.py createsuperuser
-   ```
-
-6. **Run Development Server**
-   ```bash
-   python manage.py runserver
-   ```
-
-### 🐳 Docker Development
-
-1. **Build and Start Containers**
-   ```bash
-   docker-compose up --build
-   ```
-
-2. **Run Migrations**
-   ```bash
-   docker-compose exec web python manage.py migrate
-   ```
-
-3. **Create Superuser**
-   ```bash
-   docker-compose exec web python manage.py createsuperuser
-   ```
-
-## 🔧 Production Deployment
-
-### PostgreSQL Configuration
-
-1. **Environment Variables**
-   ```env
-   DB_ENGINE=django.db.backends.postgresql
-   DB_NAME=hotelhub
-   DB_USER=your_db_user
-   DB_PASSWORD=your_db_password
-   DB_HOST=postgres
-   DB_PORT=5432
-   ```
-
-2. **Docker Compose Configuration**
-   ```yaml
-   version: '3.8'
-   
-   services:
-     postgres:
-       image: postgres:15
-       environment:
-         POSTGRES_DB: hotelhub
-         POSTGRES_USER: your_db_user
-         POSTGRES_PASSWORD: your_db_password
-       volumes:
-         - postgres_data:/var/lib/postgresql/data
-       networks:
-         - app_net
-   
-     redis:
-       image: redis:8.0
-       networks:
-         - app_net
-   
-     elasticsearch:
-       image: docker.elastic.co/elasticsearch/elasticsearch:8.14.0
-       environment:
-         - discovery.type=single-node
-         - xpack.security.enabled=false
-       volumes:
-         - elasticsearch_data:/usr/share/elasticsearch/data
-       networks:
-         - app_net
-   
-   volumes:
-     postgres_data:
-     elasticsearch_data:
-   
-   networks:
-     app_net:
-       driver: bridge
-   ```
-
 ## 📚 API Documentation
 
 The API documentation is available at:
@@ -244,7 +114,7 @@ The API documentation is available at:
 
 ### API Endpoints
 
-- **Authentication**
+-- **Authentication**
   - `POST /api/v1/auth/register/` - User registration
   - `POST /api/v1/auth/login/` - User login
   - `POST /api/v1/auth/refresh/` - Refresh token
@@ -256,6 +126,17 @@ The API documentation is available at:
   - `GET /api/v1/hotels/{id}/` - Hotel details
   - `PUT /api/v1/hotels/{id}/` - Update hotel
   - `DELETE /api/v1/hotels/{id}/` - Delete hotel
+  - `GET /api/v1/hotels/{id}/photos/` - List hotel photos
+  - `POST /api/v1/hotels/{id}/photos/` - Create hotel photo
+  - `DELETE /api/v1/hotels/{id}/photos/{photo_id}/` - Delete hotel photo
+
+- **Rooms**
+  - `GET /api/v1/rooms/` - List rooms
+  - `POST /api/v1/room/create/` - Create room
+  - `GET /api/v1/room/{id}/` - Room details
+  - `GET /api/v1/rooms/{id}/hotel/` - List rooms for hotel
+  - `GET /api/v1/rooms/search/` - Search rooms
+  - `GET /api/v1/room/photos/{id}/` - List room photos
 
 - **Bookings**
   - `GET /api/v1/bookings/` - List bookings
@@ -263,6 +144,16 @@ The API documentation is available at:
   - `GET /api/v1/bookings/{id}/` - Booking details
   - `PUT /api/v1/bookings/{id}/` - Update booking
   - `DELETE /api/v1/bookings/{id}/` - Cancel booking
+
+- **Favorites**
+  - `GET /api/v1/favorites/` - List favorites
+  - `GET /api/v1/favorite/{id}/` - Favorite details
+  - `POST /api/v1/favorite/room/{id}/create/` - Create favorite for room
+  - `POST /api/v1/favorite/hotel/{id}/create/` - Create favorite for hotel
+
+- **Cities**
+  - `GET /api/v1/cities/` - List cities
+  - `GET /api/v1/cities/{pk}/` - City details
 
 ## 🧪 Testing
 
@@ -287,67 +178,8 @@ coverage report
 - Integration Tests
 - WebSocket Tests
 
-## 📝 Project Structure
-
-```
-hotelhub/
-├── accounts/           # User authentication and profiles
-│   ├── models/        # User models
-│   ├── serializers/   # API serializers
-│   ├── views/         # API views
-│   └── tests/         # Test cases
-├── bookings/          # Booking management
-│   ├── models/        # Booking models
-│   ├── serializers/   # Booking serializers
-│   ├── views/         # Booking views
-│   └── tests/         # Test cases
-├── chat/             # Real-time chat
-│   ├── consumers/    # WebSocket consumers
-│   ├── routing/      # WebSocket routing
-│   └── tests/        # Test cases
-├── favorites/        # Favorites management
-├── hotels/           # Hotel management
-├── rooms/            # Room management
-├── utils/            # Utility functions
-└── hotelhub/         # Project configuration
-    ├── settings/     # Settings modules
-    ├── urls/         # URL configurations
-    └── asgi.py       # ASGI configuration
-```
-
 ## 🔍 Code Quality
 
-### Linting
-```bash
-# Run flake8
-flake8 .
-
-# Run black
-black .
-
-# Run isort
-isort .
-```
-
-### Pre-commit Hooks
-```yaml
-repos:
--   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
-    hooks:
-    -   id: trailing-whitespace
-    -   id: end-of-file-fixer
-    -   id: check-yaml
-    -   id: check-added-large-files
--   repo: https://github.com/psf/black
-    rev: 23.7.0
-    hooks:
-    -   id: black
--   repo: https://github.com/PyCQA/isort
-    rev: 5.12.0
-    hooks:
-    -   id: isort
-```
 
 ## 🤝 Contributing
 
