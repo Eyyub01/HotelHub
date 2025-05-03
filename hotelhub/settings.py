@@ -275,6 +275,11 @@ LOGGING = {
             "level": "INFO",
             "propagate": False,
         },
+        "ai": {
+            "handlers": ["chat_file"],
+            "level": "INFO",
+            "propagate": False,
+        },
     },
 }
 
