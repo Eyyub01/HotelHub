@@ -27,7 +27,8 @@ class AiSupportResponseAPIView(APIView):
 
     def get(self, request, room_id):
         try:
-            ai_response = AiResponse.objects.filter(room_id=room_id).latest('created_at')
+            user = request.user
+            ai_response = AiResponse.objects.filter(room_id=room_id, user=user).latest('created_at')
             serializer = AiResponseSerializer(ai_response)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except AiResponse.DoesNotExist:
