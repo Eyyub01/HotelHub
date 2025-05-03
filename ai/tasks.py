@@ -14,7 +14,7 @@ def  ai_for_hotel_and_room(room_id, *args, **kwargs):
         room = Room.objects.get(id=room_id)
         prompt =(
                 f'Tell me about the room {room.type}. '
-                f'in {room.hotel.name} located in {room.hotel.location}. '
+                f'in {room.hotel.name} located in {room.hotel.address}. '
                 f'The room price is {room.price}. '
                 f'The room is available {room.is_available}. '
                 f'The hotel email is {room.hotel.email}. '
