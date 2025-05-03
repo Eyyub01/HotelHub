@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'rooms',
     'bookings',
     'favorites',
+    'paypal_app',
 
     # Third-party apps
     'rest_framework',
@@ -170,6 +171,7 @@ CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers.DatabaseScheduler'
 
+'''
 #Logging settings
 LOGGING = {
     "version": 1,
@@ -204,11 +206,11 @@ LOGGING = {
             "filename": os.path.join(BASE_DIR, "logging/rooms.log"),
             "formatter": "verbose",
         },
-        "bookings_file": {
-            "class": "logging.FileHandler",
-            "filename": os.path.join(BASE_DIR, "logging/bookings.log"),
-            "formatter": "verbose",
-        },
+        # "bookings_file": {
+        #     "class": "logging.FileHandler",
+        #     "filename": os.path.join(BASE_DIR, "logging/bookings.log"),
+        #     "formatter": "verbose",
+        # },
     },
     "loggers": {
         "django": {
@@ -230,13 +232,14 @@ LOGGING = {
             "level": "INFO",
             "propagate": False,
         },
-        "bookings_logger": {
-            "handlers": ["bookings_file"],
-            "level": "INFO",
-            "propagate": False,
-        },
+        # "bookings_logger": {
+        #     "handlers": ["bookings_file"],
+        #     "level": "INFO",
+        #     "propagate": False,
+        # },
     },
 }
+'''
 
 #Mail settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -265,3 +268,13 @@ ELASTICSEARCH_DSL = {
         'hosts': 'http://elasticsearch:9200'
     },
 }
+
+PAYPAL_CLIENT_ID = 'AeYv6jiR6Erx7ZSQBZKncR20DBiIbteFCb5sF8U5z7bZCp79gjk_XclGGAHAz4Xkrrnx7hw9oqrC4FRD'
+PAYPAL_SECRET = 'EFjryW2j6v6bwgIhZUJOHzDaRxj9VTa_n3TeQvAuxoJGX-_CzuGrsEWgW0bNzrRx1TLrY-dclLJdw-Qp'
+
+import paypalrestsdk
+paypalrestsdk.configure({
+    "mode": "sandbox", 
+    "client_id": PAYPAL_CLIENT_ID, # Updated
+    "client_secret": PAYPAL_SECRET, # Updated
+})

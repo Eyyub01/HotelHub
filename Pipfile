@@ -54,6 +54,7 @@ django-redis = "*"
 django-celery-beat = "*"
 elasticsearch-dsl = "*"
 django-elasticsearch-dsl = "*"
+paypalrestsdk = "*"
 
 [dev-packages]
 
