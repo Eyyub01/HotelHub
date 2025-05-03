@@ -1,9 +1,8 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 
-from hotels.models.city_models import City
-
 from django.core.validators import RegexValidator
+from hotels.models.city_models import City
 
 User = get_user_model()
 

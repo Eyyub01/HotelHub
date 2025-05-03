@@ -44,3 +44,6 @@ def send_recommended_hotels_email():
             recipient_list=[user.email],
             fail_silently=False,
         )
+
+
+
