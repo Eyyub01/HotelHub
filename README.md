@@ -73,6 +73,19 @@ HotelHub is a modern, scalable hotel management system built with Django, featur
   - Quick access to preferred accommodations
   - Price alerts for saved hotels
 
+### 🤖 AI-Powered Hotel & Room Info
+- **OpenAI API**
+  - Fetch hotel and room details
+  - Generate descriptions from data
+- **Features**
+  - Real-time AI content
+  - Enhanced data retrieval
+- **Implementation**
+  - Secure API key storage
+  - Rate limiting for requests
+  - Redis caching
+  - Error handling
+
 ## 🛠️ Technology Stack
 
 ### Backend
