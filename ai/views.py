@@ -8,8 +8,8 @@ from django.shortcuts import get_object_or_404
 from utils.permissions import IsOwnerOrReadOnly
 from ai.models import AiResponse
 from ai.serializers import AiResponseSerializer
-from rooms.models.room_models import Room
 from tasks import ai_for_hotel_and_room
+
 
 class AiSupportRequestAPIView(APIView):
     authentication_classes = [JWTAuthentication]

@@ -43,9 +43,9 @@ class VerifyEmailAPIView(APIView):
         except CustomUser.DoesNotExist:
             return Response({'detail': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
 
-        if user.email_verification_code == code:  # Use the correct field name
-            user.is_email_verified = True  # Update the email verification status
-            user.email_verification_code = None  # Clear the verification code
+        if user.email_verification_code == code:  
+            user.is_email_verified = True  
+            user.email_verification_code = None  
             user.save(update_fields=["is_email_verified", "email_verification_code"])
             return Response({'detail': 'Email verified successfully!'}, status=status.HTTP_200_OK)
 

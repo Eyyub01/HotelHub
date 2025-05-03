@@ -29,7 +29,7 @@ def  ai_for_hotel_and_room(room_id, *args, **kwargs):
             temperature=0.7
         )
         
-        ai_response = response.choices[0].text.strip()
+        ai_response = response.choices[0].message.content.strip()
         filtered_response = validate_prompt(ai_response)
 
         ai_response_instance = AiResponse.objects.create(
