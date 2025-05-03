@@ -16,7 +16,8 @@ class AiSupportRequestAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, room_id):
-        ai_for_hotel_and_room.delay(room_id)
+        user_id = request.user.id
+        ai_for_hotel_and_room.delay(room_id, user_id)
         return Response({'message': 'Request is being processed'}, status=status.HTTP_201_CREATED)
 
 

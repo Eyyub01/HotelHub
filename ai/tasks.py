@@ -3,24 +3,26 @@ from celery import shared_task
 
 from ai.models import AiResponse
 from rooms.models.room_models import Room
+from accounts.models import CustomUser
 from hotelhub.settings import OPENAI_API_KEY
 from utils.validate_prompts import validate_prompt
 
 openai.api_key = OPENAI_API_KEY
 
 @shared_task
-def  ai_for_hotel_and_room(room_id, *args, **kwargs):
+def  ai_for_hotel_and_room(room_id, user_id, *args, **kwargs):
     try:
         room = Room.objects.get(id=room_id)
+        user = CustomUser.objects.get(id=user_id)
         prompt =(
-                f'Tell me about the room {room.type}. '
-                f'in {room.hotel.name} located in {room.hotel.address}. '
-                f'The room price is {room.price}. '
-                f'The room is available {room.is_available}. '
-                f'The hotel email is {room.hotel.email}. '
-                f'The hotel phone is {room.hotel.phone}. '
-                f'The hotel star rating {room.hotel.star_rating}. '
-            )
+            f'Tell me about the room {room.type}. '
+            f'in {room.hotel.name} located in {room.hotel.address}. '
+            f'The room price is {room.price}. '
+            f'The room is available {room.is_available}. '
+            f'The hotel email is {room.hotel.email}. '
+            f'The hotel phone is {room.hotel.phone}. '
+            f'The hotel star rating {room.hotel.star_rating}. '
+        )
     
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
@@ -34,10 +36,11 @@ def  ai_for_hotel_and_room(room_id, *args, **kwargs):
 
         ai_response_instance = AiResponse.objects.create(
             room_id=room_id,
+            user = user,
             ai_response=filtered_response,
             processed=True  
         )
-
+        
         return filtered_response
     except Room.DoesNotExist:
         return 'Room not found.'
