@@ -9,14 +9,14 @@ from utils.permissions import IsOwnerOrReadOnly
 from ai.models import AiResponse
 from ai.serializers import AiResponseSerializer
 from rooms.models.room_models import Room
-from tasks import ask_ai_for_hotel_detail
+from tasks import ai_for_hotel_and_room
 
 class AiSupportRequestAPIView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
     def post(self, request, room_id):
-        ask_ai_for_hotel_detail.delay(room_id)
+        ai_for_hotel_and_room.delay(room_id)
         return Response({'message': 'Request is being processed'}, status=status.HTTP_201_CREATED)
 
 
