@@ -24,14 +24,14 @@ def  ai_for_hotel_and_room(room_id, user_id, *args, **kwargs):
             f'The hotel star rating {room.hotel.star_rating}. '
         )
     
-        response = openai.ChatCompletion.create(
+        response = openai.completions.create(
             model="gpt-3.5-turbo",
             messages=[{"role": "user", "content": prompt}],
             max_tokens= 200, 
             temperature=0.7
         )
         
-        ai_response = response.choices[0].message.content.strip()
+        ai_response = response['choices'][0]['text'].strip() 
         filtered_response = validate_prompt(ai_response)
 
         ai_response_instance = AiResponse.objects.create(
