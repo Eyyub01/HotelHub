@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 
-from accounts.models import CustomUser
 from django.core.validators import RegexValidator
 from hotels.models.city_models import City
 
@@ -24,7 +23,7 @@ class Hotel(models.Model):
     ]
 
     owner = models.ForeignKey(
-        CustomUser,
+        User,
         on_delete=models.CASCADE,
         related_name='owned_hotels',
         limit_choices_to={'role': 'Owner'},
