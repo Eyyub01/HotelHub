@@ -9,7 +9,6 @@ from hotels.models.city_models import City
 from rooms.models.room_models import Room
 from .serializers import AiResponseSerializer
 
-
 class AiSupportAPITestCase(TestCase):
     def setUp(self):
         self.client = APIClient()
@@ -17,11 +16,9 @@ class AiSupportAPITestCase(TestCase):
             username='testuser',
             email='test@example.com',
             password='testpass',
-            role='Owner'  # Hotel.owner üçün role='Owner' tələb olunur
+            role='Owner'
         )
-        # City nümunəsi yaradılır
         self.city = City.objects.create(name='Test City')
-        # Hotel nümunəsi yaradılır
         self.hotel = Hotel.objects.create(
             owner=self.user,
             name='Test Hotel',
@@ -32,7 +29,6 @@ class AiSupportAPITestCase(TestCase):
             star_rating=3,
             status='approved'
         )
-        # Room nümunəsi yaradılır
         self.room = Room.objects.create(
             hotel=self.hotel,
             room_number='101',
@@ -47,7 +43,6 @@ class AiSupportAPITestCase(TestCase):
         response = self.client.post(url)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(response.data['message'], 'Request is being processed')
-        # AiResponse obyektinin yaradıldığını yoxlayın
         self.assertTrue(AiResponse.objects.filter(user=self.user, room_id=self.room.id).exists())
 
     def test_ai_support_response_cached(self):
