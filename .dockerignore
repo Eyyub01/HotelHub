@@ -1,3 +1,9 @@
 Pipfile
 Pipfile.lock
 dump.rdb
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+media/
+node_modules/

@@ -9,7 +9,7 @@ from hotelhub.settings import CACHE_TIMEOUT
 from utils.permissions import IsOwnerOrReadOnly
 from ai.models import AiResponse
 from ai.serializers import AiResponseSerializer
-from tasks import ai_for_hotel_and_room
+from .tasks import ai_for_hotel_and_room
 
 
 class AiSupportRequestAPIView(APIView):
