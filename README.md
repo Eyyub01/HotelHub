@@ -320,11 +320,9 @@ docker-compose exec web python manage.py createsuperuser
   - pytest for testing framework
   - pytest-django for Django integration
   - coverage for code coverage
-  - factory-boy for test factories
 
 - **Documentation**
   - DRF Spectacular for API documentation
-  - Sphinx for project documentation
   - Swagger/OpenAPI for API specification
 
 ## 📊 Monitoring and Logging
@@ -334,12 +332,6 @@ docker-compose exec web python manage.py createsuperuser
 - Different log levels for development and production
 - Log rotation and file management
 - Integration with monitoring services
-
-### Performance Monitoring
-- Django Debug Toolbar for development
-- Prometheus metrics
-- Grafana dashboards
-- Error tracking with Sentry
 
 ## 🔐 Security Features
 

@@ -10,21 +10,17 @@ on:
 
 jobs:
   test:
-    name: Run Tests with Docker Compose
+    name: Run Tests
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Docker Compose
-        run: |
-          docker-compose -f docker-compose.yml up -d db redis elasticsearch
-
-      - name: Wait for Services to Be Ready
-        run: |
-          echo "Waiting for PostgreSQL, Redis, and Elasticsearch to be ready..."
-          sleep 20  # Adjust this if services take longer to start
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
 
       - name: Install dependencies
         run: |
@@ -33,16 +29,11 @@ jobs:
 
       - name: Run migrations
         run: |
-          docker-compose exec web python manage.py migrate
+          python manage.py migrate
 
       - name: Run tests
         run: |
-          docker-compose exec web python manage.py test
-
-      - name: Tear Down Docker Compose
-        if: always()
-        run: |
-          docker-compose down
+          python manage.py test
 
   deploy:
     name: Deploy to Server
