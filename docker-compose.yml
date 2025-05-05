@@ -1,6 +1,21 @@
 version: "3.8"
 
 services:
+  db:
+    image: postgres:17-alpine
+    container_name: hotelhub_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - app_net
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
   redis:
     image: "redis:8.0-rc1-bookworm"
     networks:
@@ -8,11 +23,11 @@ services:
 
   web:
     build: .
-    command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+    command: ["daphne", "-b", "0.0.0.0", "-p", "8000", "hotelhub.asgi:application"]
     ports:
       - "8000:8000"
     depends_on:
-      - redis
+      - db
     networks:
       - app_net
     environment:
@@ -72,4 +87,5 @@ networks:
   app_net:
 
 volumes:
+  postgres_data:
   elasticsearch_data:

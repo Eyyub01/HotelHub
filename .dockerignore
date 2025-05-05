@@ -7,3 +7,7 @@ __pycache__/
 *.pyd
 media/
 node_modules/
+.sqlite3
+logging
+.env.example
+.gitignore

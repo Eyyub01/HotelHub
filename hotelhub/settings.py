@@ -3,6 +3,8 @@ import os
 from pathlib import Path
 from datetime import timedelta
 
+import dj_database_url
+
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -18,7 +20,7 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-*#jt63c2$!ytn6u3a14&$er^fwnqk*8_mm$8poc-ne6k7$_axh'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -121,11 +123,18 @@ CHANNEL_LAYERS = {
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=os.getenv('DATABASE_URL', 'postgres://postgres:postgres@db:5432/postgres'),
+        conn_max_age=600
+    )
 }
 
 
@@ -199,7 +208,9 @@ CELERY_TASK_TRACK_STARTED = os.getenv('CELERY_TASK_TRACK_STARTED', 'True').lower
 CELERY_TASK_TIME_LIMIT = int(os.getenv('CELERY_TASK_TIME_LIMIT', 30 * 60))
 
 CELERY_CACHE_BACKEND = 'redis://localhost:6379' 
+
 #Logging settings
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -299,8 +310,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'  
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'abbaszadeeyyub@gmail.com'  
-EMAIL_HOST_PASSWORD = 'boct xmvn eifl sltf' 
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')  
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
 # Cache settings
 CACHES = {

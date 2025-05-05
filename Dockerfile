@@ -9,7 +9,6 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /app
 
 # Upgrade pip and install dependencies
-RUN apt-get update && apt-get install -y libpq-dev gcc && apt-get clean
 RUN pip install --upgrade pip
 
 # Copy the requirements file first (better caching)
