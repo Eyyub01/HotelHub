@@ -233,6 +233,8 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_CACHE_BACKEND = 'redis://localhost:6379' 
 
 #Logging settings
+LOGGING_DIR = os.path.join(BASE_DIR, 'logging')
+os.makedirs(LOGGING_DIR, exist_ok=True)
 
 LOGGING = {
     "version": 1,

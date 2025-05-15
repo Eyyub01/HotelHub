@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   db:
     image: postgres:17-alpine
@@ -68,8 +66,9 @@ services:
     volumes:
       - .:/app
       - static_volume:/app/static
+      - logging_volume:/app/logging
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health/"]
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/ || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -92,12 +91,16 @@ services:
       - CELERY_TIMEZONE=${CELERY_TIMEZONE:-Asia/Baku}
     volumes:
       - .:/app
+      - static_volume:/app/static
+      - logging_volume:/app/logging
 
   celery-beat:
     build: .
     command: celery -A hotelhub beat --loglevel=info --scheduler django_celery_beat.schedulers:DatabaseScheduler
     volumes:
       - .:/app
+      - static_volume:/app/static
+      - logging_volume:/app/logging
     environment:
       - REDIS_HOST=${REDIS_HOST:-redis}
       - REDIS_PORT=${REDIS_PORT:-6379}
@@ -153,3 +156,4 @@ volumes:
   redis_data:
   elasticsearch_data:
   static_volume:
+  logging_volume:  # Yeni həcm log faylları üçün
