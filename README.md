@@ -167,6 +167,10 @@ The API documentation is available at:
 - **Cities**
   - `GET /api/v1/cities/` - List cities
   - `GET /api/v1/cities/{pk}/` - City details
+ 
+- **Ai**
+  - `POST /api/v1/support/request/<int:room_id>/` - Ai support request
+  - `GET /api/v1/support/response/<int:room_id>/` - Ai support response
 
 ## 🧪 Testing
 
