@@ -110,10 +110,9 @@ services:
       - CELERY_RESULT_BACKEND=${CELERY_RESULT_BACKEND:-redis://:redis_password@redis:6379/0}
       - CELERY_TIMEZONE=${CELERY_TIMEZONE:-Asia/Baku}
     depends_on:
-      redis:
-        condition: service_healthy
-      web:
-        condition: service_healthy
+    - redis
+    - db
+    - web
     networks:
       - app_net
 
